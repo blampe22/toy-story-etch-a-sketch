@@ -14,10 +14,11 @@ const drawings=[
 'lake_adventure_etch_a_sketch_ipad.html',
 'pug_splash_etch_a_sketch_ipad.html'];
 const display=document.getElementById('display'),message=document.getElementById('message');let index=0,loadTimeout,failed=0;
-function show(){clearTimeout(loadTimeout);display.src=drawings[index];loadTimeout=setTimeout(()=>{message.textContent='Loading the next drawing…';advance(true)},60000)}
+function show(){clearTimeout(loadTimeout);display.src=drawings[index]+'?v=rotation-1';loadTimeout=setTimeout(()=>{message.textContent='Loading the next drawing…';advance(true)},60000)}
 function advance(error=false){clearTimeout(loadTimeout);failed=error?failed+1:0;if(failed>=drawings.length){message.textContent='Unable to load drawings. Reload when your connection is available.';return}index=(index+1)%drawings.length;show()}
 window.addEventListener('message',event=>{if(event.source!==display.contentWindow)return;if(location.protocol!=='file:'&&event.origin!==location.origin)return;switch(event.data?.type){case 'nursery-ready':clearTimeout(loadTimeout);message.textContent='';break;case 'nursery-cycle-complete':advance();break;case 'nursery-error':advance(true);break}});
 function fitViewport(){const view=window.visualViewport,box=document.getElementById('viewport');box.style.width=(view?view.width:innerWidth)+'px';box.style.height=(view?view.height:innerHeight)+'px';box.style.left=(view?view.offsetLeft:0)+'px';box.style.top=(view?view.offsetTop:0)+'px'}
 addEventListener('resize',fitViewport);addEventListener('orientationchange',()=>{requestAnimationFrame(fitViewport);setTimeout(fitViewport,250)});if(window.visualViewport){visualViewport.addEventListener('resize',fitViewport);visualViewport.addEventListener('scroll',fitViewport)}fitViewport();
 show();
 </script></body></html>
+
