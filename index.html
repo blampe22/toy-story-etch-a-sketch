@@ -1,11 +1,21 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Nursery Etch A Sketch</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b9b8b0}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#b9b8b0}#status{position:fixed;bottom:12px;right:12px;color:#777;font:12px system-ui;opacity:0;pointer-events:none}</style></head><body>
-<iframe id="display" src="roger_etch_a_sketch_ipad.html" title="Animated Etch A Sketch" allow="autoplay" loading="eager"></iframe>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Nursery Etch A Sketch</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b9b8b0}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#b9b8b0}#message{position:fixed;inset:auto 20px 20px;color:#555;font:14px system-ui;text-align:center;pointer-events:none}</style></head><body>
+<iframe id="display" title="Animated family Etch A Sketch" allow="autoplay" loading="eager"></iframe><div id="message" role="status"></div>
 <script>
-// Each individual animation draws for 60 seconds, holds for 15, and erases for 2.
-const drawings=['roger_etch_a_sketch_ipad.html','royce_etch_a_sketch_ipad.html'];
-const cycleMilliseconds=77000;
-let index=0;
-const display=document.getElementById('display');
-setInterval(()=>{index=(index+1)%drawings.length;display.src=drawings[index];},cycleMilliseconds);
+'use strict';
+const drawings=[
+'galaxy_edge_etch_a_sketch_ipad.html',
+'volcano_etch_a_sketch_ipad.html',
+'luge_etch_a_sketch_ipad.html',
+'carousel_castle_etch_a_sketch_ipad.html',
+'pug_porch_office_etch_a_sketch_ipad.html',
+'cuddle_puddle_etch_a_sketch_ipad.html',
+'hedge_maze_etch_a_sketch_ipad.html',
+'lake_adventure_etch_a_sketch_ipad.html',
+'pug_splash_etch_a_sketch_ipad.html'];
+const display=document.getElementById('display'),message=document.getElementById('message');let index=0,loadTimeout,failed=0;
+function show(){clearTimeout(loadTimeout);display.src=drawings[index];loadTimeout=setTimeout(()=>{message.textContent='Loading the next drawing…';advance(true)},60000)}
+function advance(error=false){clearTimeout(loadTimeout);failed=error?failed+1:0;if(failed>=drawings.length){message.textContent='Unable to load drawings. Reload when your connection is available.';return}index=(index+1)%drawings.length;show()}
+window.addEventListener('message',event=>{if(event.source!==display.contentWindow)return;if(location.protocol!=='file:'&&event.origin!==location.origin)return;switch(event.data?.type){case 'nursery-ready':clearTimeout(loadTimeout);message.textContent='';break;case 'nursery-cycle-complete':advance();break;case 'nursery-error':advance(true);break}});
+show();
 </script></body></html>
