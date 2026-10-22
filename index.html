@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Nursery Etch A Sketch</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#b9b8b0}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#b9b8b0}#status{position:fixed;bottom:12px;right:12px;color:#777;font:12px system-ui;opacity:0;pointer-events:none}</style></head><body>
+<iframe id="display" src="roger_etch_a_sketch_ipad.html" title="Animated Etch A Sketch" allow="autoplay" loading="eager"></iframe>
+<script>
+// Each individual animation draws for 60 seconds, holds for 15, and erases for 2.
+const drawings=['roger_etch_a_sketch_ipad.html','royce_etch_a_sketch_ipad.html'];
+const cycleMilliseconds=77000;
+let index=0;
+const display=document.getElementById('display');
+setInterval(()=>{index=(index+1)%drawings.length;display.src=drawings[index];},cycleMilliseconds);
+</script></body></html>
